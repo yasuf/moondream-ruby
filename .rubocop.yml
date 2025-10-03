@@ -13,3 +13,33 @@ Style/StringLiteralsInInterpolation:
 Layout/LineLength:
   Max: 120
 
+# Disable style cops for spec files
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - '*.gemspec'
+
+# Allow empty blocks in specs for testing purposes
+Lint/EmptyBlock:
+  Exclude:
+    - 'spec/**/*.rb'
+
+# Disable development dependency warnings in gemspec
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+# Allow missing documentation in specs
+Style/Documentation:
+  Enabled: false
+
+# Allow optional boolean parameters
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+# Allow slightly longer methods for API clients
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 18
+

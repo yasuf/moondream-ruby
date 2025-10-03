@@ -1,6 +1,6 @@
 # Moondream
 
-A Ruby gem for interacting with Moondream.
+A Ruby gem for interacting with the Moondream API.
 
 ## Installation
 
@@ -14,7 +14,7 @@ And then execute:
 
     $ bundle install
 
-Or install it yourself as:
+Or install it yourself with:
 
     $ gem install moondream
 
@@ -23,7 +23,7 @@ Or install it yourself as:
 ```ruby
 require 'moondream'
 
-# Your usage examples here
+
 ```
 
 ## Development

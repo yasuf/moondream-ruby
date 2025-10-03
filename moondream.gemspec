@@ -1,4 +1,6 @@
-require_relative 'lib/moondream/version'
+# frozen_string_literal: true
+
+require_relative "lib/moondream/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "moondream"
@@ -15,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/yourusername/moondream-ruby"
   spec.metadata["changelog_uri"] = "https://github.com/yourusername/moondream-ruby/blob/main/CHANGELOG.md"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Specify which files should be added to the gem when it is released.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
@@ -26,11 +29,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Runtime dependencies
-  # spec.add_dependency "http", "~> 5.0"
+  spec.add_dependency "httparty", "~> 0.21.0"
 
   # Development dependencies
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop", "~> 1.21"
+  spec.add_development_dependency "webmock", "~> 3.18"
 end
-
