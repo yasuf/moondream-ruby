@@ -55,7 +55,11 @@ module Moondream
     #     puts chunk # or do something else with the chunk
     #   end
     # end
-    def caption(image_url, length = "normal", stream = false)
+    def caption(image_url: nil, length: "normal", stream: false)
+      if image_url.nil?
+        raise ArgumentError, "image_url is required"
+      end
+
       uri = URI("#{BASE_URL}/caption")
 
       result = nil

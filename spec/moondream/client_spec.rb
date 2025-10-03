@@ -18,7 +18,7 @@ RSpec.describe Moondream::Client do
 
   describe "#query" do
     let(:prompt) { "What is in this image?" }
-    let(:response_body) { '{"answer": "A cat sitting on a chair"}' }
+    let(:response_body) { '{"request_id": "123", "answer": "A cat sitting on a chair"}' }
 
     before do
       stub_request(:post, "#{base_url}/query")
@@ -54,7 +54,7 @@ RSpec.describe Moondream::Client do
 
   describe "#detect" do
     let(:object) { "cat" }
-    let(:response_body) { '{"objects": [{"bbox": [10, 20, 100, 200]}]}' }
+    let(:response_body) { '{"request_id": "123", "objects": [{"x_min": 0.2, "y_min": 0.3, "x_max": 0.6, "y_max": 0.8}]}' }
 
     before do
       stub_request(:post, "#{base_url}/detect")
@@ -90,7 +90,7 @@ RSpec.describe Moondream::Client do
 
   describe "#point" do
     let(:object) { "cat" }
-    let(:response_body) { '{"points": [{"x": 50, "y": 100}]}' }
+    let(:response_body) { '{"request_id": "123", "points": [{"x": 50.23, "y": 100.45}]}' }
 
     before do
       stub_request(:post, "#{base_url}/point")
@@ -138,8 +138,12 @@ RSpec.describe Moondream::Client do
           .to_return(status: 200, body: response_body)
       end
 
+      it "requires an image_url parameter" do
+        expect { client.caption(length: length, stream: false) }.to raise_error(ArgumentError)
+      end
+
       it "makes a POST request to the caption endpoint" do
-        client.caption(image_url, length, false)
+        client.caption(image_url: image_url, length: length, stream: false)
 
         expect(WebMock).to have_requested(:post, "#{base_url}/caption")
           .with(
@@ -149,7 +153,7 @@ RSpec.describe Moondream::Client do
       end
 
       it "returns the response body" do
-        result = client.caption(image_url, length, false)
+        result = client.caption(image_url: image_url, length: length, stream: false)
         expect(result).to eq(response_body)
       end
 
@@ -160,7 +164,7 @@ RSpec.describe Moondream::Client do
           )
           .to_return(status: 200, body: response_body)
 
-        client.caption(image_url)
+        client.caption(image_url: image_url)
 
         expect(WebMock).to have_requested(:post, "#{base_url}/caption")
           .with(body: { image_url: image_url, length: "normal", stream: false }.to_json)
@@ -183,7 +187,7 @@ RSpec.describe Moondream::Client do
       it "yields the response for streaming" do
         chunks = []
 
-        client.caption(image_url, length, true) do |response|
+        client.caption(image_url: image_url, length: length, stream: true) do |response|
           response.read_body do |chunk|
             chunks << chunk
           end
@@ -193,7 +197,7 @@ RSpec.describe Moondream::Client do
       end
 
       it "makes a POST request with stream=true" do
-        client.caption(image_url, length, true) { |_response| }
+        client.caption(image_url: image_url, length: length, stream: true) { |_response| }
 
         expect(WebMock).to have_requested(:post, "#{base_url}/caption")
           .with(
