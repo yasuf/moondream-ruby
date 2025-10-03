@@ -5,6 +5,8 @@ require "httparty"
 require "net/http"
 require "json"
 
+# This module contains the Moondream client to use the Moondream API
+# to run inference on image querying, detection, pointing, and captioning.
 module Moondream
   class Error < StandardError; end
 
@@ -13,10 +15,15 @@ module Moondream
 
     BASE_URL = "https://api.moondream.ai/v1"
 
+    # @param api_key [String] The API key to use for the client
+    # @return [Moondream::Client] The client instance
     def initialize(api_key:)
       @api_key = api_key
     end
 
+    # @param image_url [String] The URL of the image to query
+    # @param prompt [String] The prompt to query the image with
+    # @return [String] The response from the API
     def query(image_url, prompt)
       response = HTTParty.post(
         "#{BASE_URL}/query",
@@ -27,6 +34,9 @@ module Moondream
       response.body
     end
 
+    # @param image_url [String] The URL of the image to detect objects in
+    # @param object [String] The object to detect in the image
+    # @return [String] The response from the API
     def detect(image_url, object)
       response = HTTParty.post(
         "#{BASE_URL}/detect",
@@ -37,6 +47,9 @@ module Moondream
       response.body
     end
 
+    # @param image_url [String] The URL of the image to point to
+    # @param object [String] The object to point to in the image
+    # @return [String] The response from the API
     def point(image_url, object)
       response = HTTParty.post(
         "#{BASE_URL}/point",
@@ -55,6 +68,11 @@ module Moondream
     #     puts chunk # or do something else with the chunk
     #   end
     # end
+    #
+    # @param image_url [String] The URL of the image to caption
+    # @param length [String] The length of the caption, "normal" or "short"
+    # @param stream [Boolean] Whether to stream the response, default is false
+    # @return [String] The response from the API
     def caption(image_url: nil, length: "normal", stream: false)
       if image_url.nil?
         raise ArgumentError, "image_url is required"
