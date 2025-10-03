@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "moondream/version"
+require_relative "version"
 require "httparty"
 require "net/http"
 require "json"

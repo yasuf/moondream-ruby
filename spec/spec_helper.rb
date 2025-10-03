@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "moondream"
+require "moondream/client"
 require "webmock/rspec"
 
 RSpec.configure do |config|
